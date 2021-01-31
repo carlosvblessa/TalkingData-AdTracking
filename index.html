@@ -14,7 +14,7 @@
 
 <title>TalkingData AdTracking - Desafio de detecção de fraude</title>
 
-<script src="Projeto01_files/jquery-1.11.3/jquery.min.js"></script>
+<script src="Projeto01_files/jquery-3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="Projeto01_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="Projeto01_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -26,6 +26,14 @@
 <script src="Projeto01_files/navigation-1.1/tabsets.js"></script>
 <link href="Projeto01_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="Projeto01_files/highlightjs-9.12.0/highlight.js"></script>
+<script src="Projeto01_files/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="Projeto01_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="Projeto01_files/datatables-binding-0.17/datatables.js"></script>
+<link href="Projeto01_files/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="Projeto01_files/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="Projeto01_files/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="Projeto01_files/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="Projeto01_files/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 <script src="Projeto01_files/kePrint-0.0.1/kePrint.js"></script>
 <link href="Projeto01_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -274,23 +282,117 @@ div.tocify {
 
 <div id="objetivo" class="section level1">
 <h1><span class="header-section-number">1</span> Objetivo</h1>
-<p>Detecção de Fraudes no Tráfego de Cliques em Propagandas de Aplicações Mobile As empresas de publicidade online lidam com uma grande quantidade de anúncios de clique, muitos são cliques fraudulentos. Este projeto envolve a investigação do comportamento do clique do usuário e da taxa de download. O objetivo é prever se um usuário fará o download do aplicativo mobile depois de clicar em seu anúncio. Isso será feito comparando a taxa de cliques dos usuários com os eventos de download do aplicativo. Analisando esses eventos fica claro que os downloads são muito raros quando comparados com os cliques, ou seja, os usuários clicam nos anúncios, mas não baixam o aplicativo posteriormente. Este trabalho destaca a importância da análise exploratória de dados, engenharia de atributos e o uso de algoritmos apropriados para lidar com dados desbalanceados.</p>
+<p>Detecção de Fraudes no Tráfego de Cliques em Propagandas de Aplicações Mobile.</p>
+<p>As empresas de publicidade online lidam com uma grande quantidade de anúncios de clique, muitos são cliques fraudulentos. Este projeto envolve a investigação do comportamento do clique do usuário e da taxa de download. O objetivo é prever se um usuário fará o download do aplicativo mobile depois de clicar em seu anúncio. Isso será feito comparando a taxa de cliques dos usuários com os eventos de download do aplicativo. Analisando esses eventos fica claro que os downloads são muito raros quando comparados com os cliques, ou seja, os usuários clicam nos anúncios, mas não baixam o aplicativo posteriormente. Este trabalho destaca a importância da análise exploratória de dados, engenharia de atributos e o uso de algoritmos apropriados para lidar com dados desbalanceados.</p>
 <p>O risco de fraude está em toda parte, mas para as empresas que anunciam online, a fraude de cliques pode acontecer em um volume avassalador, resultando em dados de cliques enganosos e dinheiro desperdiçado. Os canais de anúncios podem aumentar os custos simplesmente quando pessoas ou bots clicam nos anúncios em grande escala, o que na prática não gera o resultado esperado. Com mais de 1 bilhão de dispositivos móveis em uso todos os meses, a China é o maior mercado móvel do mundo e, portanto, sofre com grandes volumes de tráfego fraudulento.</p>
 <p>A TalkingData (<a href="https://www.talkingdata.com" class="uri">https://www.talkingdata.com</a>), a maior plataforma de Big Data independente da China, cobre mais de 70% dos dispositivos móveis ativos em todo o país. Eles lidam com 3 bilhões de cliques por dia, dos quais 90% são potencialmente fraudulentos. Sua abordagem atual para impedir fraudes de cliques para desenvolvedores de aplicativos é medir a jornada do clique de um usuário em todo o portfólio e sinalizar endereços IP que produzem muitos cliques, mas nunca acabam instalando aplicativos. Com essas informações, eles criaram uma lista negra de IPs e uma lista negra de dispositivos.</p>
 <p>Embora bem-sucedidos, eles querem estar sempre um passo à frente dos fraudadores e pediram a sua ajuda para desenvolver ainda mais a solução. Você está desafiado a criar um algoritmo que possa prever se um usuário fará o download de um aplicativo depois de clicar em um anúncio de aplicativo para dispositivos móveis.</p>
 </div>
+<div id="avaliação" class="section level1">
+<h1><span class="header-section-number">2</span> Avaliação</h1>
+<p>A métrica para para a avaliação dos resultados é área sob a curva ROC entre a probabilidade prevista e o alvo observado.</p>
+<div id="arquivo-a-ser-submetido" class="section level2">
+<h2><span class="header-section-number">2.1</span> Arquivo a ser submetido</h2>
+<p>O dataset a ser submetido deverá ser composto por duas variáveis: click_id e is_attributed O id corresponde à variável click_id no dataset de teste. O arquivo deve conter um cabeçalho e ter o seguinte formato:</p>
+<pre><code>click_id, is_attributed
+1.0.003
+2,0.001
+3,0.000
+etc.</code></pre>
+</div>
+</div>
 <div id="dados" class="section level1">
-<h1><span class="header-section-number">2</span> Dados</h1>
+<h1><span class="header-section-number">3</span> Dados</h1>
 <p>Os dados de treino fornecidos pela TalkingData foram coletados entre 06/11 e 09/11/2017 e consistem em 08 variáveis e 185 milhões de observações. Os dados de teste foram coletados no dia 10/11/2017 e consistem em 07 variáveis e 18 milhões de observações. Ambos os conjuntos de dados estão em formato CSV.</p>
+<div id="descrição-dos-arquivos" class="section level2">
+<h2><span class="header-section-number">3.1</span> Descrição dos arquivos</h2>
+<ul>
+<li><strong>train.csv</strong> – dados de treino</li>
+<li><strong>train_sample.csv</strong> - amostra aleatória com 100.000 dos dados de treino, para inspecionar os dados antes de baixar o conjunto completo</li>
+<li><strong>test.csv</strong> – dados de teste</li>
+<li><strong>sampleSubmission.csv</strong> – arquivo exemplo de envio no formato correto</li>
+</ul>
+</div>
+<div id="dicionário-de-dados" class="section level2">
+<h2><span class="header-section-number">3.2</span> Dicionário de dados</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variável</th>
+<th align="left">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>ip</strong></td>
+<td align="left">Endereço IP do clique.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>app</strong></td>
+<td align="left">ID do aplicativo para marketing.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>device</strong></td>
+<td align="left">ID do tipo de dispositivo do telefone celular do usuário.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>os</strong></td>
+<td align="left">ID da versão do sistema operacional do telefone celular do usuário.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>channel</strong></td>
+<td align="left">ID do canal do editor de anúncios para celular.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>click_time</strong></td>
+<td align="left">Data/hora do clique</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>attributed_time</strong></td>
+<td align="left">Data/hora se o usuário baixar o aplicativo depois de clicar em um anúncio.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>is_attributed</strong></td>
+<td align="left">Variável a ser prevista, indicando que o aplicativo foi baixado.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="diferenças-no-dicionário-de-dados-de-teste" class="section level2">
+<h2><span class="header-section-number">3.3</span> Diferenças no dicionário de dados de teste</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variável</th>
+<th align="left">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>click_id</strong></td>
+<td align="left">Variável adicional para identificar a previsão.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>attributed_time</strong></td>
+<td align="left">Não existe.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>is_attributed</strong></td>
+<td align="left">Não existe - variável alvo.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="pacotes-necessários" class="section level1">
-<h1><span class="header-section-number">3</span> Pacotes necessários</h1>
+<h1><span class="header-section-number">4</span> Pacotes necessários</h1>
 <pre class="r"><code># Manipulação de dados
 library(data.table)
 library(dplyr)
 library(purrr)
 library(tibble)
 library(janitor)
+library(DT)
 
 # Trabalhar com datas
 library(lubridate)
@@ -311,24 +413,48 @@ library(ggalluvial)
 library(kableExtra)</code></pre>
 </div>
 <div id="carga-dos-dados" class="section level1">
-<h1><span class="header-section-number">4</span> Carga dos dados</h1>
+<h1><span class="header-section-number">5</span> Carga dos dados</h1>
 <p>Os datasets são grandes, então usaremos <strong>fread</strong> do pacote <strong>data.table</strong>.</p>
 <p>A variável <strong>attributed_time</strong> não existe no dataset de teste, por isso não será carregada.</p>
 <pre class="r"><code># Carrega o dataset de treino.
 system.time(treino &lt;- fread(&quot;train.csv&quot;, na.strings=c(&quot;&quot;,&quot;NA&quot;),
                             drop = &quot;attributed_time&quot;, nThread = 16 ))</code></pre>
 <pre><code>##    user  system elapsed 
-##  28.649   2.505   9.381</code></pre>
+##  28.746   2.485   9.333</code></pre>
 <pre class="r"><code># Carrega os dados de teste
 system.time(teste &lt;- fread(&quot;test.csv&quot;, na.strings=c(&quot;&quot;,&quot;NA&quot;),
                            nThread = 16 ))</code></pre>
 <pre><code>##    user  system elapsed 
-##   2.879   0.244   0.959</code></pre>
+##   2.961   0.227   0.975</code></pre>
+</div>
+<div id="amostras-dos-dados" class="section level1 tabset">
+<h1><span class="header-section-number">6</span> Amostras dos dados</h1>
+<p>Os datasets serão exibidos por amostras aleatórias com 100 observações.</p>
+<div id="treino" class="section level2">
+<h2><span class="header-section-number">6.1</span> Treino</h2>
+<pre class="r"><code>datatable(sample_n(treino, 100) %&gt;% arrange(click_time),
+          class=&quot;table-condensed&quot;,
+          options = list(pageLength = 10,
+                         lengthMenu = c(10, 20, 50, 100)
+))</code></pre>
+<div id="htmlwidget-893a149e2a207adb8b0d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-893a149e2a207adb8b0d">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[81435,5348,49808,61791,8292,102476,100694,43827,47674,149650,168744,98052,23836,11926,92673,9127,111458,125396,25792,87879,104868,37073,62339,88329,24254,66972,95891,19170,86944,80188,201541,164777,48383,4727,105456,95766,34432,80660,95509,125623,38627,224709,230663,123817,23043,186803,83595,121835,91019,250267,269786,50641,30564,152805,29411,49538,40400,106680,39479,59280,101455,100212,121728,51747,74916,153484,37207,5348,20266,200732,219680,125100,55876,103322,81514,103035,56044,223599,3941,102206,16464,59125,62937,82821,75463,7556,117605,20592,9874,131176,57803,125827,352999,37559,156935,102099,55805,24876,49172,349524],[15,12,8,18,35,2,9,2,14,19,2,12,26,58,9,13,32,12,12,8,64,2,18,9,15,14,15,12,26,8,12,15,15,15,21,26,9,151,18,12,9,2,13,14,3,12,29,26,14,15,12,22,2,3,14,151,15,13,9,3,11,3,18,21,3,12,12,3,9,9,13,3,2,15,21,2,9,25,3,3,3,2,3,7,9,12,3,6,12,9,26,15,11,9,18,12,17,18,12,1],[1,2,1,1,1,1,1,1,1,0,1,1,1,3032,1,1,1,1,2,1,1,1,3032,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[10,26,1,8,19,8,8,13,17,21,18,18,12,607,41,30,15,19,19,19,19,17,607,13,13,8,41,13,13,19,19,19,19,17,13,49,17,0,10,19,17,6,19,22,19,23,13,19,3,14,13,19,13,13,19,38,22,10,35,3,22,18,13,19,41,15,10,6,18,13,23,17,3,19,14,17,9,8,48,19,13,19,19,19,20,22,18,49,19,20,12,41,6,11,37,6,13,19,17,13],[140,145,145,107,21,236,334,237,439,213,477,245,121,347,234,469,376,245,265,145,459,469,107,232,430,442,245,245,266,259,19,245,130,278,128,266,134,347,134,245,244,477,477,379,480,265,213,477,439,245,145,116,477,280,480,347,245,469,134,280,469,280,107,128,489,328,145,130,234,445,400,424,364,245,232,469,134,259,137,280,424,205,280,101,445,135,280,459,424,145,121,140,360,127,121,340,128,107,145,349],["2017-11-06 18:53:07","2017-11-06 22:18:46","2017-11-06 23:53:37","2017-11-07 00:36:00","2017-11-07 02:04:29","2017-11-07 03:38:38","2017-11-07 04:08:45","2017-11-07 04:15:07","2017-11-07 04:19:45","2017-11-07 05:01:29","2017-11-07 05:20:50","2017-11-07 06:27:03","2017-11-07 07:25:06","2017-11-07 07:35:35","2017-11-07 09:50:43","2017-11-07 10:29:47","2017-11-07 10:53:02","2017-11-07 11:54:25","2017-11-07 12:19:52","2017-11-07 12:32:32","2017-11-07 13:27:32","2017-11-07 13:37:52","2017-11-07 14:18:33","2017-11-07 14:22:38","2017-11-07 14:30:10","2017-11-07 14:33:36","2017-11-07 15:11:08","2017-11-07 15:25:45","2017-11-07 15:34:58","2017-11-07 16:00:02","2017-11-07 18:12:56","2017-11-07 20:50:59","2017-11-07 23:10:29","2017-11-07 23:29:40","2017-11-07 23:38:32","2017-11-08 00:03:41","2017-11-08 00:07:13","2017-11-08 00:18:13","2017-11-08 00:19:37","2017-11-08 00:44:05","2017-11-08 01:51:53","2017-11-08 02:17:17","2017-11-08 03:08:31","2017-11-08 04:11:11","2017-11-08 05:07:20","2017-11-08 05:17:05","2017-11-08 05:52:07","2017-11-08 05:59:21","2017-11-08 06:03:21","2017-11-08 06:53:14","2017-11-08 07:47:27","2017-11-08 07:56:39","2017-11-08 08:00:16","2017-11-08 08:26:40","2017-11-08 08:39:25","2017-11-08 08:44:59","2017-11-08 09:09:29","2017-11-08 09:25:07","2017-11-08 10:01:09","2017-11-08 10:02:31","2017-11-08 10:18:13","2017-11-08 10:55:18","2017-11-08 11:36:58","2017-11-08 11:56:01","2017-11-08 12:29:44","2017-11-08 12:52:33","2017-11-08 13:17:09","2017-11-08 14:19:31","2017-11-08 14:32:27","2017-11-08 14:40:17","2017-11-08 15:32:36","2017-11-08 15:38:22","2017-11-08 16:48:28","2017-11-08 18:45:53","2017-11-08 19:15:13","2017-11-08 21:44:37","2017-11-08 22:00:07","2017-11-09 00:57:20","2017-11-09 02:40:15","2017-11-09 03:06:02","2017-11-09 03:21:59","2017-11-09 05:06:57","2017-11-09 05:55:24","2017-11-09 05:58:57","2017-11-09 07:35:19","2017-11-09 07:37:18","2017-11-09 07:37:21","2017-11-09 07:40:26","2017-11-09 08:03:11","2017-11-09 09:09:44","2017-11-09 09:32:15","2017-11-09 10:40:07","2017-11-09 11:47:52","2017-11-09 13:05:30","2017-11-09 13:37:52","2017-11-09 13:39:38","2017-11-09 14:07:30","2017-11-09 14:47:16","2017-11-09 15:36:48","2017-11-09 15:57:00"],[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"container":"<table class=\"table-condensed\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>ip<\/th>\n      <th>app<\/th>\n      <th>device<\/th>\n      <th>os<\/th>\n      <th>channel<\/th>\n      <th>click_time<\/th>\n      <th>is_attributed<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"lengthMenu":[10,20,50,100],"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="teste" class="section level2">
+<h2><span class="header-section-number">6.2</span> Teste</h2>
+<pre class="r"><code>datatable(sample_n(teste, 100) %&gt;% arrange(click_time),
+          class=&quot;table-condensed&quot;,
+          options = list(pageLength = 10,
+                         lengthMenu = c(10, 20, 50, 100)
+))</code></pre>
+<div id="htmlwidget-0db9c09e0c81f8fa0902" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0db9c09e0c81f8fa0902">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[540761,603906,650188,913369,999248,1149301,1203770,1360542,1511813,1634525,2223070,2415376,2491331,2498371,2814752,2879762,3164473,3714637,4598311,4642865,4706415,4744071,4869717,4898977,5033873,5059894,5467579,5600344,5621581,6147481,6410121,6575165,7065027,7157224,7344474,7346440,7416570,7591624,7802170,7954531,8287771,8841642,8860607,8867425,9037113,9239057,9279601,9311263,9459932,9580581,9914110,10264712,10463028,10876135,10880590,11089818,11434344,11494541,11597743,11643026,11700552,11789277,11841332,12015032,12301370,12468750,12488009,12583441,13184835,13230425,13318263,13386457,13465009,13482111,13678123,14358262,14684345,14983765,15115709,15142091,15277783,15328302,15409179,15749773,15832472,15940613,16145497,16213312,16278145,16313016,16435683,16690673,16904638,17621633,17671352,17825621,18469139,18637793,18675650,18719928],[88791,52331,38219,43790,14275,34457,111741,84384,119531,26799,100042,41641,83917,43809,53454,90068,45425,25520,3744,29347,26814,86160,11907,110042,73015,105587,107062,44175,76877,36367,21734,92908,76885,100401,29636,99906,6155,84972,23451,123894,120709,105121,73487,7373,65687,9849,53422,118229,58934,73487,7343,115445,83270,19571,7210,84758,88745,119531,38602,5348,38773,82983,53557,38975,123984,23466,105651,88159,97890,112394,77184,75564,48170,88281,16999,96719,115918,13539,99015,64430,99856,68095,53454,63987,85625,44377,87907,48009,86272,76855,124519,110704,7243,4536,30483,74562,112777,113397,116012,5574],[2,14,3,3,6,12,3,21,18,18,12,2,3,8,12,3,9,19,18,2,12,11,9,23,2,32,26,9,13,3,9,14,19,21,18,2,9,9,18,12,9,17,18,25,26,18,18,18,12,2,10,9,12,20,3,8,3,2,9,9,9,25,23,15,12,2,26,26,12,11,12,9,13,13,2,8,21,9,9,18,19,15,2,2,2,18,15,13,21,9,8,9,15,9,18,9,15,15,9,2],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,114,1,1,1,1,1,1,1,1,1,1,1,1,1,1,154,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1],[19,19,25,1,17,16,39,13,18,13,19,10,20,20,19,30,10,0,19,19,13,22,13,14,19,19,10,17,19,19,16,39,50,32,12,19,19,19,15,22,32,9,8,13,49,13,19,47,13,13,13,19,15,145,25,22,19,19,19,20,34,19,19,13,20,18,19,19,13,16,23,1,13,15,9,13,18,31,31,13,38,14,22,7,9,37,18,25,19,37,19,12,51,13,19,13,18,14,13,18],[452,379,211,211,459,340,211,232,121,134,135,236,442,145,265,137,466,101,107,243,340,122,215,153,122,376,266,134,400,424,466,489,282,128,107,243,107,127,107,328,445,128,107,259,121,134,107,134,140,258,317,489,328,259,19,145,480,243,127,244,334,259,153,315,178,435,266,477,178,487,259,107,477,477,477,145,232,127,107,265,347,130,237,212,219,439,412,477,128,127,259,466,265,215,107,244,430,153,244,477],["2017-11-10 04:09:37","2017-11-10 04:10:43","2017-11-10 04:11:29","2017-11-10 04:16:06","2017-11-10 04:17:35","2017-11-10 04:20:13","2017-11-10 04:21:11","2017-11-10 04:23:56","2017-11-10 04:26:38","2017-11-10 04:28:46","2017-11-10 04:39:20","2017-11-10 04:42:50","2017-11-10 04:44:14","2017-11-10 04:44:22","2017-11-10 04:50:04","2017-11-10 04:51:15","2017-11-10 04:56:33","2017-11-10 05:07:05","2017-11-10 05:25:24","2017-11-10 05:26:15","2017-11-10 05:27:31","2017-11-10 05:28:14","2017-11-10 05:30:44","2017-11-10 05:31:21","2017-11-10 05:34:07","2017-11-10 05:34:41","2017-11-10 05:43:22","2017-11-10 05:46:14","2017-11-10 05:46:44","2017-11-10 05:58:45","2017-11-10 09:03:52","2017-11-10 09:07:08","2017-11-10 09:17:06","2017-11-10 09:18:56","2017-11-10 09:22:44","2017-11-10 09:22:46","2017-11-10 09:24:13","2017-11-10 09:27:48","2017-11-10 09:32:14","2017-11-10 09:35:20","2017-11-10 09:42:11","2017-11-10 09:53:22","2017-11-10 09:53:44","2017-11-10 09:53:52","2017-11-10 09:57:05","2017-11-10 10:00:49","2017-11-10 10:01:34","2017-11-10 10:02:11","2017-11-10 10:05:10","2017-11-10 10:07:34","2017-11-10 10:14:09","2017-11-10 10:20:57","2017-11-10 10:24:43","2017-11-10 10:32:34","2017-11-10 10:32:39","2017-11-10 10:36:33","2017-11-10 10:42:59","2017-11-10 10:44:09","2017-11-10 10:46:10","2017-11-10 10:47:02","2017-11-10 10:48:09","2017-11-10 10:49:48","2017-11-10 10:50:47","2017-11-10 10:54:09","2017-11-10 10:59:43","2017-11-10 13:02:49","2017-11-10 13:03:13","2017-11-10 13:05:10","2017-11-10 13:16:47","2017-11-10 13:17:42","2017-11-10 13:19:25","2017-11-10 13:20:41","2017-11-10 13:22:09","2017-11-10 13:22:27","2017-11-10 13:26:22","2017-11-10 13:39:04","2017-11-10 13:44:56","2017-11-10 13:50:15","2017-11-10 13:52:39","2017-11-10 13:53:07","2017-11-10 13:55:30","2017-11-10 13:56:26","2017-11-10 13:57:54","2017-11-10 14:03:50","2017-11-10 14:05:28","2017-11-10 14:07:26","2017-11-10 14:11:01","2017-11-10 14:12:14","2017-11-10 14:13:26","2017-11-10 14:14:01","2017-11-10 14:16:16","2017-11-10 14:20:52","2017-11-10 14:24:42","2017-11-10 14:37:11","2017-11-10 14:38:06","2017-11-10 14:41:16","2017-11-10 14:53:39","2017-11-10 14:57:11","2017-11-10 14:57:59","2017-11-10 14:58:47"]],"container":"<table class=\"table-condensed\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>click_id<\/th>\n      <th>ip<\/th>\n      <th>app<\/th>\n      <th>device<\/th>\n      <th>os<\/th>\n      <th>channel<\/th>\n      <th>click_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"lengthMenu":[10,20,50,100],"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
 </div>
 <div id="análise-exploratória" class="section level1">
-<h1><span class="header-section-number">5</span> Análise exploratória</h1>
+<h1><span class="header-section-number">7</span> Análise exploratória</h1>
 <div id="verificar-a-estrutura-e-resumo-estatístico-de-ambos-datsets" class="section level2">
-<h2><span class="header-section-number">5.1</span> Verificar a estrutura e resumo estatístico de ambos datsets</h2>
+<h2><span class="header-section-number">7.1</span> Verificar a estrutura e resumo estatístico de ambos datsets</h2>
 <ul>
 <li>Verificar dados missing.</li>
 <li>Verificar a estrutura.</li>
@@ -411,81 +537,8 @@ colSums(is.na(teste))</code></pre>
 ##  3rd Qu.: 19.00   3rd Qu.:401.0                     
 ##  Max.   :604.00   Max.   :498.0</code></pre>
 </div>
-<div id="dicionário-de-dados" class="section level2">
-<h2><span class="header-section-number">5.2</span> Dicionário de dados</h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Variável</th>
-<th align="left">Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><strong>ip</strong></td>
-<td align="left">Endereço IP do clique.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>app</strong></td>
-<td align="left">ID do aplicativo para marketing.</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>device</strong></td>
-<td align="left">ID do tipo de dispositivo do telefone celular do usuário.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>os</strong></td>
-<td align="left">ID da versão do sistema operacional do telefone celular do usuário.</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>channel</strong></td>
-<td align="left">ID do canal do editor de anúncios para celular.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>click_time</strong></td>
-<td align="left">Data/hora do clique</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>attributed_time</strong></td>
-<td align="left">Data/hora se o usuário baixar o aplicativo depois de clicar em um anúncio.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>is_attributed</strong></td>
-<td align="left">Variável a ser prevista, indicando que o aplicativo foi baixado.</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="diferenças-no-dicionário-de-dados-de-teste" class="section level2">
-<h2><span class="header-section-number">5.3</span> Diferenças no dicionário de dados de teste</h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Variável</th>
-<th align="left">Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><strong>click_id</strong></td>
-<td align="left">Variável adicional para identificar a previsão.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>attributed_time</strong></td>
-<td align="left">Não existe.</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>is_attributed</strong></td>
-<td align="left">Não existe - variável alvo.</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code># Guarda click_id em um objeto e remove a variável.
-click_id &lt;- teste$click_id
-teste$click_id &lt;- NULL</code></pre>
-</div>
 <div id="diagrama-aluvial" class="section level2">
-<h2><span class="header-section-number">5.4</span> Diagrama aluvial</h2>
+<h2><span class="header-section-number">7.2</span> Diagrama aluvial</h2>
 <p>Esse tipo de gráfico é útil para descobrir interações entre diversas variáveis. O tamanho vertical de cada bloco é proporcional à frequência da variável. O próximo gráfico mostra altos fluxos de <strong>device</strong> 0 e 1 para os <strong>os</strong>, <strong>app</strong> e <strong>channel</strong> correspondentes quando <strong>is_attributed</strong> é igual a 1. Em particular, podemos ver que <strong>device</strong>== 1 não usa <strong>os</strong>==0 e <strong>device</strong>==0 não usa <strong>os</strong>==19, etc.</p>
 <p>Gráfico extraído de: <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <pre class="r"><code># Cria um dataset a partir de uma amostra de 3 milhões de observações
@@ -507,11 +560,11 @@ ggplot(alluvia.ds,aes(weight = freq, axis1 = device, axis2 = os,
 <p><img src="Projeto01_files/figure-html/alluvial-1.png" width="672" /></p>
 </div>
 <div id="distribuição-de-classes" class="section level2">
-<h2><span class="header-section-number">5.5</span> Distribuição de classes</h2>
+<h2><span class="header-section-number">7.3</span> Distribuição de classes</h2>
 <pre class="r"><code># Transformar a variável alvo em categórica
 system.time(treino$is_attributed  &lt;- as.factor(treino$is_attributed))</code></pre>
 <pre><code>##    user  system elapsed 
-##   3.266   1.996   5.313</code></pre>
+##   3.350   1.948   5.345</code></pre>
 <pre class="r"><code># Verificar a distribuição.
 kable(tabyl(treino$is_attributed) %&gt;% adorn_pct_formatting()) %&gt;% 
   kable_styling(full_width = F,
@@ -558,11 +611,11 @@ percent
 <p>O conjunto de dados está extremamente desbalanceado. Temos 99.8% de registros para cliques fraudulentos e 0.2% para cliques legítimos.</p>
 </div>
 <div id="balancear-os-dados-com-undersampling" class="section level2">
-<h2><span class="header-section-number">5.6</span> Balancear os dados com undersampling</h2>
+<h2><span class="header-section-number">7.4</span> Balancear os dados com undersampling</h2>
 <pre class="r"><code>system.time(treino &lt;- ovun.sample(is_attributed ~ ., data = treino,
                           method = &quot;under&quot;, p = 0.5, seed = 1 )$data)</code></pre>
 <pre><code>##    user  system elapsed 
-## 168.199  16.922 186.885</code></pre>
+## 166.089  17.095 184.827</code></pre>
 <pre class="r"><code>kable(tabyl(treino$is_attributed) %&gt;% adorn_pct_formatting()) %&gt;% 
   kable_styling(full_width = F,
                 bootstrap_options = c(&quot;striped&quot;,&quot;hover&quot;,&quot;condensed&quot;,&quot;responsive&quot;))</code></pre>
@@ -608,7 +661,7 @@ percent
 <p>Dados balanceados. Os 185 milhões de observações foram reduzidos para 914 mil</p>
 </div>
 <div id="verificar-a-distribuição-dos-valores-de-app-device-os-e-channel-em-função-da-variável-alvo" class="section level2">
-<h2><span class="header-section-number">5.7</span> Verificar a distribuição dos valores de <strong>app</strong>, <strong>device</strong>, <strong>os</strong> e <strong>channel</strong> em função da variável alvo</h2>
+<h2><span class="header-section-number">7.5</span> Verificar a distribuição dos valores de <strong>app</strong>, <strong>device</strong>, <strong>os</strong> e <strong>channel</strong> em função da variável alvo</h2>
 <pre class="r"><code>ggplot(treino, aes(x = ip, fill = is_attributed)) +
   geom_density(alpha = 0.5) + theme_bw()</code></pre>
 <p><img src="Projeto01_files/figure-html/densidade_1-1.png" width="672" /></p>
@@ -628,9 +681,9 @@ percent
 </div>
 </div>
 <div id="engenharia-de-atributos" class="section level1">
-<h1><span class="header-section-number">6</span> Engenharia de atributos</h1>
+<h1><span class="header-section-number">8</span> Engenharia de atributos</h1>
 <div id="obter-data-e-hora-a-partir-da-variável-attribute_time" class="section level2">
-<h2><span class="header-section-number">6.1</span> Obter data e hora a partir da variável <strong>attribute_time</strong></h2>
+<h2><span class="header-section-number">8.1</span> Obter data e hora a partir da variável <strong>attribute_time</strong></h2>
 <p>Primeiro nos dados de treino.</p>
 <pre class="r"><code>treino$day &lt;-  day(ymd_hms(treino$click_time))
 treino$hour &lt;- hour(ymd_hms(treino$click_time))
@@ -788,7 +841,7 @@ percent
 </table>
 </div>
 <div id="obter-frequência-de-acessos-por-hora" class="section level2">
-<h2><span class="header-section-number">6.2</span> Obter frequência de acessos por hora</h2>
+<h2><span class="header-section-number">8.2</span> Obter frequência de acessos por hora</h2>
 <p>Nos dados de teste há um padrão de frequência de horas bem definido. As horas 4,5,9,10,13 e 14 tem suas frequências em torno de 15 a 18%. As horas 6,11 e 15 tem frequências próximas a zero. Os demais horários não existem na base de teste, pois o intervalo dos dados de teste é das 04:00:00 do dia 10/11/2017 às 15:00:00 do mesmo dia.</p>
 <p>Criar variável para agrupar as frequências em três valores.</p>
 <pre class="r"><code>frequentes &lt;- c(4,5,9,10,13,14)
@@ -809,7 +862,7 @@ treino$click_time &lt;- NULL
 teste$click_time &lt;- NULL</code></pre>
 </div>
 <div id="grupos-de-acesso-por-ip-dia-hora-aplicativo-e-so" class="section level2">
-<h2><span class="header-section-number">6.3</span> Grupos de acesso por IP, dia, hora, aplicativo e SO</h2>
+<h2><span class="header-section-number">8.3</span> Grupos de acesso por IP, dia, hora, aplicativo e SO</h2>
 <p>Criar variáveis derivadas de contagens de agrupamentos de outras variáveis. O objetivo é identificar, por exemplo, se um aplicativo sendo executado em certo SO, oriundo de um determinado IP em determinados dia e hora baixou o aplicativo ou apenas clicou no anúncio.</p>
 <p>Alguns trechos de código inspirados de: <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <pre class="r"><code># Dados de treino
@@ -827,6 +880,10 @@ setDT(teste)[, ip_day_hour_os := .N, by = .(ip, day, hour, os)]
 setDT(teste)[, ip_day_hour_app := .N, by = .(ip, day, hour, app)]
 setDT(teste)[, ip_day_hour_app_os := .N, by = .(ip, day, hour, app, os)]
 setDT(teste)[, app_day_hour := .N, by = .(app, day, hour)]</code></pre>
+<p>Guarda <strong>click_id</strong> em um objeto e remove a variável.</p>
+<pre class="r"><code># Guarda click_id em um objeto e remove a variável.
+click_id &lt;- teste$click_id
+teste$click_id &lt;- NULL</code></pre>
 <p>As variáveis <strong>ip</strong> e <strong>freq_hour</strong> não são mais necessárias, serão removidas.</p>
 <pre class="r"><code>treino$ip &lt;- NULL
 treino$freq_hour &lt;- NULL
@@ -865,15 +922,16 @@ str(treino)</code></pre>
 ##  $ ip_day_hour_app_os: int  1 3 7 9 3 2 1 1 1 1 ...
 ##  $ app_day_hour      : int  475418 475418 77207 209436 396028 331896 444372 30530 331896 396028 ...
 ##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
-<p>Foram removidas as variáveis originais <strong>click_time</strong> e <strong>ip</strong>, as variáveis auxiliares <strong>minute</strong>, <strong>second</strong> e <strong>freq_hour</strong> em ambos datasets.<br />
-Foram acrescentadas nos dois datasets as variáveis <strong>hour</strong>, <strong>ip_day_freq_hour</strong>, <strong>ip_day_hour</strong>, <strong>ip_day_hour_os</strong>, <strong>ip_day_hour_app</strong>, <strong>ip_day_hour_app_os</strong> e <strong>app_day_hour</strong></p>
+<p>Foram removidas as variáveis originais <strong>click_time</strong> e <strong>ip</strong>, as variáveis auxiliares <strong>minute</strong>, <strong>second</strong> e <strong>freq_hour</strong> em ambos datasets.</p>
+<p>Foi removida <strong>click_id</strong> no dataset de treino.</p>
+<p>Foram acrescentadas nos dois datasets as variáveis <strong>hour</strong>, <strong>ip_day_freq_hour</strong>, <strong>ip_day_hour</strong>, <strong>ip_day_hour_os</strong>, <strong>ip_day_hour_app</strong>, <strong>ip_day_hour_app_os</strong> e <strong>app_day_hour</strong></p>
 </div>
 </div>
 <div id="seleção-de-variáveis" class="section level1">
-<h1><span class="header-section-number">7</span> Seleção de variáveis</h1>
+<h1><span class="header-section-number">9</span> Seleção de variáveis</h1>
 <p>Utilizaremos dois métodos para obter lista com as variáveis mais significativas: Random Forest e Chi Quadrado.</p>
 <div id="seleção-de-variáveis-random-forest" class="section level2">
-<h2><span class="header-section-number">7.1</span> Seleção de variáveis – Random Forest</h2>
+<h2><span class="header-section-number">9.1</span> Seleção de variáveis – Random Forest</h2>
 <pre class="r"><code># Criando um modelo para identificar com randomForest
 modelo &lt;- randomForest(is_attributed ~ . , 
                        data = treino[sample(.N, 100000), ], 
@@ -1022,7 +1080,7 @@ os
 </table>
 </div>
 <div id="seleção-de-variáveis-chi-quadrado" class="section level2">
-<h2><span class="header-section-number">7.2</span> Seleção de variáveis – Chi Quadrado</h2>
+<h2><span class="header-section-number">9.2</span> Seleção de variáveis – Chi Quadrado</h2>
 <pre class="r"><code># Método do chi.squared
 variaveis &lt;- chi.squared(is_attributed ~ ., treino[sample(.N, 100000), ])
 
@@ -1095,7 +1153,7 @@ ip_day_freq_hour
 <p>Independentemente do método há coincidência das variáveis mais relevantes.</p>
 </div>
 <div id="reorganização-dos-conjuntos-de-dados" class="section level2">
-<h2><span class="header-section-number">7.3</span> Reorganização dos conjuntos de dados</h2>
+<h2><span class="header-section-number">9.3</span> Reorganização dos conjuntos de dados</h2>
 <p>Criar um vetor de caracteres contendo as seis variáveis significativas.</p>
 <pre class="r"><code>variaveis_imp &lt;- cutoff.k(variaveis %&gt;% arrange(desc(attr_importance)), 6)
 
@@ -1110,16 +1168,16 @@ teste &lt;- teste[,..variaveis_imp]</code></pre>
 </div>
 </div>
 <div id="modelos" class="section level1">
-<h1><span class="header-section-number">8</span> Modelos</h1>
+<h1><span class="header-section-number">10</span> Modelos</h1>
 <p>Utilizaremos quatro modelos ML da plataforma H2O.ai.</p>
 <div id="sobre-a-h2o.ai" class="section level2">
-<h2><span class="header-section-number">8.1</span> Sobre a H2O.ai</h2>
+<h2><span class="header-section-number">10.1</span> Sobre a H2O.ai</h2>
 <blockquote>
 <p>A H2O.ai é uma empresa de software visionária com sede no Vale do Silício, que tem como missão democratizar a utilização de inteligência artificial. Com um time repleto de makers, especialistas em data science e Kaggle grandmasters, a H2O.ai se tornou a líder em criar produtos e tecnologias abertas para ciência de dados e aprendizado de máquina (machine learning). <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 </blockquote>
 </div>
 <div id="iniciar-o-cluster-e-preparar-os-datasets" class="section level2">
-<h2><span class="header-section-number">8.2</span> Iniciar o cluster e preparar os datasets</h2>
+<h2><span class="header-section-number">10.2</span> Iniciar o cluster e preparar os datasets</h2>
 <pre class="r"><code># Kit de modelos H2O 
 library(h2o)
 
@@ -1130,14 +1188,14 @@ h2o.init(nthreads=-1, max_mem_size=&quot;40G&quot;)</code></pre>
 <pre><code>##  Connection successful!
 ## 
 ## R is connected to the H2O cluster: 
-##     H2O cluster uptime:         8 hours 15 minutes 
+##     H2O cluster uptime:         2 hours 47 minutes 
 ##     H2O cluster timezone:       America/Maceio 
 ##     H2O data parsing timezone:  UTC 
-##     H2O cluster version:        3.32.0.1 
-##     H2O cluster version age:    3 months and 9 days !!! 
-##     H2O cluster name:           H2O_started_from_R_carloslessa_ehs110 
+##     H2O cluster version:        3.32.0.3 
+##     H2O cluster version age:    1 month and 6 days  
+##     H2O cluster name:           H2O_started_from_R_carloslessa_ivo870 
 ##     H2O cluster total nodes:    1 
-##     H2O cluster total memory:   38.31 GB 
+##     H2O cluster total memory:   37.85 GB 
 ##     H2O cluster total cores:    4 
 ##     H2O cluster allowed cores:  4 
 ##     H2O cluster healthy:        TRUE 
@@ -1147,7 +1205,7 @@ h2o.init(nthreads=-1, max_mem_size=&quot;40G&quot;)</code></pre>
 ##     H2O Internal Security:      FALSE 
 ##     H2O API Extensions:         Amazon S3, XGBoost, Algos, AutoML, Core V3, TargetEncoder, Core V4 
 ##     R Version:                  R version 3.6.3 (2020-02-29)</code></pre>
-<pre class="r"><code># Limpa o ambiente - apenas no caso do cluster já estar em execução
+<pre class="r"><code># Limpa o ambiente - apenas no caso do cluster já está em execução
 h2o.removeAll()
 
 # Não exibir a barra de progresso na saída RMarkdown
@@ -1156,10 +1214,10 @@ h2o.no_progress()
 # Converte em dataframe H2O
 system.time(h2o_treino &lt;- as.h2o(treino))</code></pre>
 <pre><code>##    user  system elapsed 
-##   2.153   0.024   2.774</code></pre>
+##   2.132   0.035   4.080</code></pre>
 <pre class="r"><code>system.time(h2o_teste &lt;- as.h2o(teste))</code></pre>
 <pre><code>##    user  system elapsed 
-##  31.695   0.401  34.577</code></pre>
+##  31.779   0.332  35.656</code></pre>
 <pre class="r"><code># Remove datasets para liberar memória
 rm(teste)
 rm(treino)
@@ -1169,7 +1227,7 @@ response &lt;- &quot;is_attributed&quot;
 predictors &lt;- setdiff(names(h2o_treino), response)</code></pre>
 </div>
 <div id="random-forest" class="section level2">
-<h2><span class="header-section-number">8.3</span> Random Forest</h2>
+<h2><span class="header-section-number">10.3</span> Random Forest</h2>
 <p>Distributed Random Forest (DRF) é uma ferramenta poderosa de classificação e regressão. Quando fornecido um conjunto de dados, o DRF gera uma floresta de árvores, em vez de uma única árvore de classificação ou regressão.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <pre class="r"><code># Modelo Random Forest
 system.time(model_rf &lt;-
@@ -1185,23 +1243,23 @@ system.time(model_rf &lt;-
                                keep_cross_validation_predictions = T,
                                seed = 1))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.481   0.025  79.840</code></pre>
+##   0.452   0.046  80.795</code></pre>
 <pre class="r"><code># Previsões com Random Forest
 system.time(predic_rf &lt;- h2o.predict(model_rf, h2o_teste))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.158   0.010  37.624</code></pre>
+##   0.163   0.022  38.720</code></pre>
 <pre class="r"><code># Converter de H2O format em data frame
 system.time(predic_rf.df &lt;- as.data.frame(predic_rf))</code></pre>
 <pre><code>##    user  system elapsed 
-##  24.568   0.370  41.486</code></pre>
+##  25.053   0.319  42.663</code></pre>
 <pre class="r"><code># Salvar em formato csv para submissão no Kaggle 
 result_rf &lt;- data.frame(click_id = click_id,
-                        is_attributed = ifelse(predic_rf.df$X1 &gt; 0.5, 1 ,0))
+                        is_attributed = round(predic_rf.df$X1,3))
 
 fwrite(result_rf,&#39;talkingdata_kaggle_rf.csv&#39;)</code></pre>
 </div>
 <div id="gradient-boosted" class="section level2">
-<h2><span class="header-section-number">8.4</span> Gradient Boosted</h2>
+<h2><span class="header-section-number">10.4</span> Gradient Boosted</h2>
 <p>Gradient Boosting Machine é um método de conjunto de aprendizagem progressiva. A heurística orientadora é que bons resultados preditivos podem ser obtidos por meio de aproximações cada vez mais refinadas.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
 <pre class="r"><code># Modelo Gradient Boosted
 system.time(model_gbm &lt;-
@@ -1220,23 +1278,23 @@ system.time(model_gbm &lt;-
                       keep_cross_validation_predictions = T,
                       seed = 1))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.486   0.028  85.041</code></pre>
+##   0.503   0.060  87.179</code></pre>
 <pre class="r"><code># Previsões com Gradient Boosted
 system.time(predic_gbm &lt;- h2o.predict(model_gbm, h2o_teste))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.172   0.010  38.588</code></pre>
+##   0.181   0.007  38.622</code></pre>
 <pre class="r"><code># Converter de H2O format em data frame
 system.time(predic_gbm.df &lt;- as.data.frame(predic_gbm))</code></pre>
 <pre><code>##    user  system elapsed 
-##  25.841   0.399  43.294</code></pre>
+##  26.918   0.321  44.283</code></pre>
 <pre class="r"><code># Salvar em formato csv para submissão no Kaggle 
 result_gbm &lt;- data.frame(click_id = click_id,
-                          is_attributed = ifelse(predic_gbm.df$X1 &gt; 0.5, 1, 0))
+                          is_attributed = round(predic_gbm.df$X1,3))
 
 fwrite(result_gbm,&#39;talkingdata_kaggle_gbm.csv&#39;)</code></pre>
 </div>
 <div id="extreme-gradient-boosted" class="section level2">
-<h2><span class="header-section-number">8.5</span> eXtreme Gradient Boosted</h2>
+<h2><span class="header-section-number">10.5</span> eXtreme Gradient Boosted</h2>
 <p>XGBoost constrói muitos modelos sequencialmente, com cada novo modelo tentando corrigir as deficiências do modelo anterior. Cada novo modelo adicionado ao conjunto é uma árvore de decisão. O XGBoost fornece boosting de árvore paralela.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 <pre class="r"><code># Modelo eXtreme Gradient Boosting
 system.time(model_xgb &lt;-
@@ -1255,23 +1313,23 @@ system.time(model_xgb &lt;-
                           keep_cross_validation_predictions = T,
                           seed = 1))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.378   0.025  62.610</code></pre>
+##   0.402   0.017  63.628</code></pre>
 <pre class="r"><code># Previsões com eXtreme Gradient Boosting
 system.time(predic_xgb &lt;- h2o.predict(model_xgb, h2o_teste))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.087   0.011  16.370</code></pre>
+##   0.087   0.011  16.361</code></pre>
 <pre class="r"><code># Converter de H2O format em data frame
 system.time(predic_xgb.df &lt;- as.data.frame(predic_xgb))</code></pre>
 <pre><code>##    user  system elapsed 
-##  18.160   0.268  36.905</code></pre>
+##  18.769   0.271  38.383</code></pre>
 <pre class="r"><code># Salvar em formato csv para submissão no Kaggle 
 result_xgb &lt;- data.frame(click_id = click_id,
-                          is_attributed = ifelse(predic_xgb.df$X1 &gt; 0.5, 1, 0))
+                          is_attributed = round(predic_xgb.df$X1,3))
 
 fwrite(result_xgb,&quot;talkingdata_kaggle_xgb.csv&quot;)</code></pre>
 </div>
 <div id="stacked-ensemble-super-learner" class="section level2">
-<h2><span class="header-section-number">8.6</span> Stacked Ensemble (Super Learner)</h2>
+<h2><span class="header-section-number">10.6</span> Stacked Ensemble (Super Learner)</h2>
 <p>Algoritmo que agrupa modelos para encontrar a combinação ideal. Recebe como parâmetro uma lista com dois ou mais modelos.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
 <pre class="r"><code># Modelo Stacked Ensemble (Super Learner)
 system.time(model_stck &lt;-
@@ -1286,52 +1344,53 @@ system.time(model_stck &lt;-
                              metalearner_fold_assignment = &quot;AUTO&quot;,
                              seed = 1))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.191   0.000   5.242</code></pre>
+##   0.201   0.006   5.251</code></pre>
 <pre class="r"><code># Previsões com Stacked Ensemble (Super Learner)
 system.time(predic_stck &lt;- h2o.predict(model_stck, h2o_teste))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.362   0.021  87.396</code></pre>
+##   0.373   0.009  88.380</code></pre>
 <pre class="r"><code># Converter de H2O format em data frame
 system.time(predic_stck.df &lt;- as.data.frame(predic_stck))</code></pre>
 <pre><code>##    user  system elapsed 
-##  28.266   0.365  45.332</code></pre>
+##  28.319   0.398  46.044</code></pre>
 <pre class="r"><code># Salvar em formato csv para submissão no Kaggle 
 result_stck &lt;- data.frame(click_id = click_id,
-                          is_attributed = ifelse(predic_stck.df$X1 &gt; 0.5, 1, 0))
+                          is_attributed = round(predic_stck.df$X1,3))
 
 fwrite(result_stck,&#39;talkingdata_kaggle_stck.csv&#39;)</code></pre>
 </div>
 </div>
 <div id="avaliação-dos-modelos" class="section level1">
-<h1><span class="header-section-number">9</span> Avaliação dos modelos</h1>
+<h1><span class="header-section-number">11</span> Avaliação dos modelos</h1>
 <pre class="r"><code># Objetos com os dados de performance
 perf_rf &lt;- h2o.performance(model_rf)
 perf_gbm &lt;- h2o.performance(model_gbm)
 perf_xgb &lt;- h2o.performance(model_xgb)
 perf_stck &lt;- h2o.performance(model_stck)</code></pre>
 <div id="índice-gini" class="section level2">
-<h2><span class="header-section-number">9.1</span> Índice GINI</h2>
+<h2><span class="header-section-number">11.1</span> Índice GINI</h2>
 <p>O índice de GINI quantifica a desigualdade entre os valores de uma distribuição de frequência e pode ser usado para medir a qualidade de um classificador binário. Um índice de GINI de 0 expressa igualdade perfeita (ou um classificador totalmente inútil), enquanto um índice de GINI de 1 expressa a desigualdade máxima (ou um classificador perfeito).</p>
 <pre class="r"><code># Extrai GINI
 GINI &lt;- c(h2o.giniCoef(perf_rf),h2o.giniCoef(perf_gbm),
           h2o.giniCoef(perf_xgb),h2o.giniCoef(perf_stck))</code></pre>
 </div>
 <div id="auc" class="section level2">
-<h2><span class="header-section-number">9.2</span> AUC</h2>
+<h2><span class="header-section-number">11.2</span> AUC</h2>
 <p>Área sob a curva ROC. Avalia quão bem um modelo de classificação binária é capaz de distinguir entre verdadeiros positivos e falsos positivos. Um AUC de 1 indica um classificador perfeito, enquanto um AUC de 0,5 indica um classificador pobre, cujo desempenho não é melhor do que adivinhação aleatória.</p>
+<p>Métrica utilizada na avaliação da competição, portanto AUC é a mais importante para o caso em foco.</p>
 <pre class="r"><code># Extrai AUC
 AUC &lt;- c(h2o.auc(perf_rf),h2o.auc(perf_gbm),
          h2o.auc(perf_xgb),h2o.auc(perf_stck))</code></pre>
 </div>
 <div id="aucpr" class="section level2">
-<h2><span class="header-section-number">9.3</span> AUCPR</h2>
+<h2><span class="header-section-number">11.3</span> AUCPR</h2>
 <p>Área sob a curva de recall de precisão. Recall é a capacidade de um modelo detectar todos os exemplos positivos e a precisão é a capacidade de um modelo evitar rotular amostras negativas como positivas.</p>
 <pre class="r"><code># Extrai AUCPR
 AUCPR &lt;- c(h2o.aucpr(perf_rf), h2o.aucpr(perf_gbm),
          h2o.aucpr(perf_xgb), h2o.aucpr(perf_stck))</code></pre>
 </div>
 <div id="tabela-de-performance" class="section level2">
-<h2><span class="header-section-number">9.4</span> Tabela de performance</h2>
+<h2><span class="header-section-number">11.4</span> Tabela de performance</h2>
 <pre class="r"><code># Nome dos modelos
 Modelo &lt;- c(&quot;Random Forest&quot;,&quot;Gradient Boosted&quot;,
              &quot;eXtreme Gradient Boosting&quot;,&quot;Stacked Ensemble&quot;)
@@ -1418,7 +1477,7 @@ Stacked Ensemble
 </table>
 </div>
 <div id="gráfico-resumo-do-shap" class="section level2">
-<h2><span class="header-section-number">9.5</span> Gráfico resumo do SHAP</h2>
+<h2><span class="header-section-number">11.5</span> Gráfico resumo do SHAP</h2>
 <p>Baseado nos valores de Shapley.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
 <pre class="r"><code># Gráfico resumo do SHAP
 
@@ -1433,7 +1492,7 @@ h2o.shap_summary_plot(model_rf, h2o_teste) +
 <p><img src="Projeto01_files/figure-html/avalia_shap-3.png" width="672" /></p>
 </div>
 <div id="curvas-roc-dos-quatro-modelos" class="section level2">
-<h2><span class="header-section-number">9.6</span> Curvas ROC dos quatro modelos</h2>
+<h2><span class="header-section-number">11.6</span> Curvas ROC dos quatro modelos</h2>
 <p>Código obtido de:<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
 <pre class="r"><code># Plotando as curvas ROC dos quatro modelos
 list(model_rf,model_gbm,model_xgb,model_stck) %&gt;% 
@@ -1461,7 +1520,7 @@ list(model_rf,model_gbm,model_xgb,model_stck) %&gt;%
 <p><img src="Projeto01_files/figure-html/avalia_roc-1.png" width="672" /></p>
 </div>
 <div id="curvas-prroc-dos-quatro-modelos" class="section level2">
-<h2><span class="header-section-number">9.7</span> Curvas PRROC dos quatro modelos</h2>
+<h2><span class="header-section-number">11.7</span> Curvas PRROC dos quatro modelos</h2>
 <pre class="r"><code># Plotando as curvas PRROC dos quatro modelos
 list(model_rf,model_gbm,model_xgb,model_stck) %&gt;% 
   # Mapeia a função para cada elemento da lista
@@ -1489,16 +1548,17 @@ list(model_rf,model_gbm,model_xgb,model_stck) %&gt;%
 </div>
 </div>
 <div id="resultado-da-submissão-ao-kaggle" class="section level1">
-<h1><span class="header-section-number">10</span> Resultado da Submissão ao Kaggle</h1>
-<p><img src="kaggle.png" /></p>
+<h1><span class="header-section-number">12</span> Resultado da Submissão ao Kaggle</h1>
+<p><img src="Kaggle.png" /></p>
 </div>
 <div id="conclusão" class="section level1">
-<h1><span class="header-section-number">11</span> Conclusão</h1>
-<p>Neste trabalho vimos o quanto a análise exploratória de dados pode nos indicar os caminhos para a engenharia de atributos, aplicamos a técnica de undersampling para balancear as classes e utilizamos métodos distintos para selecionar variáveis relevantes . Aplicamos aos dados quatro algoritmos de machine learning, comparamos seus desempenhos e submetemos ao Kaggle os arquivos resultantes das predições.</p>
+<h1><span class="header-section-number">13</span> Conclusão</h1>
+<p>Neste trabalho vimos o quanto a análise exploratória de dados pode nos indicar os caminhos para a engenharia de atributos, aplicamos a técnica de undersampling para balancear as classes e utilizamos métodos distintos para selecionar variáveis relevantes. Aplicamos aos dados quatro algoritmos de machine learning para resolver um problema de classificação binária, comparamos seus desempenhos e submetemos ao Kaggle os arquivos resultantes das predições.</p>
 <p>Comparando os resultados com os dados de treino e da submissão ao Kaggle vimos diferenças significativas, indicando provável overfitting, ou seja, algumas iterações de todo o processo são necessárias para aproximar os resultados de teste aos de treino, porém está fora do escopo deste trabalho.</p>
+<p>Em um trabalho recente - <a href="https://carlosvblessa.github.io/Demanda-GrupoBimbo/">Demanda de estoque do Grupo Bimbo</a> - resolvemos um problema de regressão com cinco modelos distintos e utilizamos métricas de avaliação diferentes das usadas aqui, adequadas para modelos de regressão.</p>
 </div>
 <div id="material-de-apoio" class="section level1">
-<h1><span class="header-section-number">12</span> Material de Apoio</h1>
+<h1><span class="header-section-number">14</span> Material de Apoio</h1>
 <ul>
 <li><a href="https://docs.h2o.ai/h2o/latest-stable/h2o-docs/performance-and-prediction.html">Performance and Prediction</a></li>
 <li><a href="https://docs.h2o.ai/h2o/latest-stable/h2o-docs/explain.html">Model Explainability</a></li>
